@@ -123,7 +123,7 @@ public class ICT extends TermRules {
 		}
 		currentCat = mtx;
 
-		System.err.println("Loading catalogue data into RAM...");
+		LOGGER.error("Loading catalogue data into RAM...");
 
 		currentCat.loadData();
 
