@@ -18,6 +18,9 @@ import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarStyle;
 import utilities.GlobalUtil;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * The class uses the BR provided by the Catalogue browser in order to interpret
  * FoodEx2 codes and check their correctness
@@ -25,6 +28,8 @@ import utilities.GlobalUtil;
  * @author shahaal
  */
 public class ICT extends TermRules {
+	
+	private static final Logger LOGGER = LogManager.getLogger(ICT.class);
 
 	/**
 	 * Start the program by command line used from ICT
@@ -38,8 +43,7 @@ public class ICT extends TermRules {
 
 			// argument checks
 			if (args.length != 5) {
-				System.err.println(
-						"\nERROR!\nWrong number of parameters passed to app.jar. Expected 5, found  " + args.length);
+				LOGGER.error("ERROR!\n Wrong number of parameters passed to app.jar. Expected 5, found" + args.length);
 
 				// wait before close
 				Thread.sleep(2000);
@@ -68,7 +72,7 @@ public class ICT extends TermRules {
 
 			int lineCount = 0;
 
-			System.err.println("\n+++++++++++++++++++ ANALYZING FOODEX2 CODES +++++++++++++++++++\n");
+			LOGGER.error("\n+++++++++++++++++++ ANALYZING FOODEX2 CODES +++++++++++++++++++\n");
 
 			// read the number of lines for the progress bar
 			Path path = Paths.get(input.getAbsolutePath());
@@ -82,7 +86,7 @@ public class ICT extends TermRules {
 
 					// add a separator among the warnings related to different codes
 					if (lineCount != 0)
-						System.out.println();
+						LOGGER.info("\n");
 
 					// perform the warnings checks for the current code
 					warnUtil.performWarningChecks(line, true, true);
@@ -96,11 +100,11 @@ public class ICT extends TermRules {
 			buffReader.close();
 			// close the output file
 			out.close();
-			System.err.println("\nAll the FoodEx2 codes has been analysed!");
+			LOGGER.error("\nAll the FoodEx2 codes has been analysed!");
 
 		} catch (Exception e) {
+			LOGGER.error("\nERROR in Main!\n" + e.getMessage());
 			e.printStackTrace();
-			System.err.println("\nERROR in Main!\n" + e.getMessage());
 		}
 
 		// wait before close
@@ -171,7 +175,7 @@ public class ICT extends TermRules {
 			sb.append(textWarningLevel.toString());
 
 			// print the line
-			System.out.print(sb.toString() + "|");
+			LOGGER.info(sb.toString() + "|");
 			return;
 		}
 	}
